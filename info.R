@@ -1,0 +1,5 @@
+name = "xuan luu"
+sid = "25486748"
+email = "xluu@berkeley.edu"
+github_name = "xuan luu"
+status = "enrolled"
