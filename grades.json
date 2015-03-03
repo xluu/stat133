@@ -1,0 +1,24 @@
+{
+    "login": "xluu", 
+    "url": "git@github.com:xluu/stat133.git", 
+    "name": "xuan luu", 
+    "sid": "25486748", 
+    "email": "xluu@berkeley.edu", 
+    "github_name": "xuan luu", 
+    "status": "enrolled", 
+    "grades": {
+        "hw1": {
+            "note": "", 
+            "hash": "3943b2f44eb53f4dbd7ac8a35a911acfffd5e050", 
+            "earned": 12, 
+            "possible": 20, 
+            "penalty": 0, 
+            "parts": {
+                "hw1": {
+                    "possible": 20, 
+                    "earned": 12
+                }
+            }
+        }
+    }
+}
