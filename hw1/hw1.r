@@ -63,7 +63,7 @@ sd.m <- sd(m)
 # << max.m >> : a scalar, the maximum of the numbers in << m >>
 max.m <- max(m)
 
-ma##################################################################################
+##################################################################################
 ### Second part, data frames
 
 ### NOTE: .rda and .RData are binary files used to save R variables for later use, 
