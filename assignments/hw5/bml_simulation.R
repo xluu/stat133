@@ -8,3 +8,11 @@
 #### how many steps you observered before concluding that it is in a free flowing state.
 
 
+counter = 0
+for (i in 1:100) {
+  if(!bml.sim(5,4,.9)) {
+    print (i)
+    counter = counter + 1
+  }
+}
+print(paste0("It gridlocked ", counter, " times"))
