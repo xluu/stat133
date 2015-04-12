@@ -14,11 +14,10 @@
 #   element of <data.list>
 
 listLengths <- function(data.list) {
-  element.lengths <- vector()
-  for i in 1:length(data.list) {
-    element.lengths <- c(element.lengths, length(data.list[i]))
-  }
+  data.list <- sapply(data.list, length)
+  return(data.list)
 }
+
 
 #### Function 2
 #### Implement the function "powers"
@@ -40,8 +39,9 @@ powers <- function(x, k){
     x.powers[,i] = x^i
     colnames(x.powers)[i] = paste("x", i, sep="^")
   }
-  return x.powers
+  return (x.powers)
 }
+
  
 #### Function #3
 #### Implement the function "recipeConversion"
@@ -91,7 +91,7 @@ recipeConversion <- function(recipe){
     }
   }
   recipe.metric <- recipe
-  return recipe.metric
+  return (recipe.metric)
 }
 
 #### Function #4a
@@ -122,7 +122,7 @@ bootstrapVarEst <- function(x, B){
     boot_mean[i] <- mean(data)
   }
   boot.sigma2.est <- var(boot_mean)
-  return boot.sigma2.est
+  return (boot.sigma2.est)
 }
 
 #### Function #4b
@@ -143,13 +143,13 @@ bootstrapVarEst <- function(x, B){
 #     for this reduced sample calculate the sample mean (get mu_1, mu_2, ..., mu_n)
 # -- The jackknife variance is the sample variance of mu_1, mu_2, ..., mu_n
 
-jackknifeVarEst <- fuction(x){
+jackknifeVarEst <- function(x){
   mu = rep(0, length(x))
   for (i in 1:length(x)) {
     mu[i] = mean(x[-i])
   }
   jack.sigma2.est <- var(mu)
-  return jack.sigma2.est
+  return (jack.sigma2.est)
 }
 
 #### Function #4c
