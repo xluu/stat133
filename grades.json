@@ -22,14 +22,14 @@
         }, 
         "hw4": {
             "note": "", 
-            "hash": "21b10c6f43fb999bc514bf3a3b5ebac697d7c5c0", 
-            "earned": 0, 
+            "hash": "3d5a7e4408eed0fb1932b66e786aae031f0045cb", 
+            "earned": 9, 
             "possible": 20, 
             "penalty": 0, 
             "parts": {
                 "hw4": {
                     "possible": 20, 
-                    "earned": 0
+                    "earned": 9
                 }
             }
         }
