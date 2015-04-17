@@ -8,13 +8,57 @@
 ## that stores the state of the system (i.e. location of red and blue cars)
 
 bml.init <- function(r, c, p){
-  num_cars = round(r * c * p)
-  rcars = round(num_cars/2)
-  bcars= num_cars - rcars
-  empty = (r * c) - num_cars
-  data = sample(c(rep(0,empty), rep(1, rcars), rep(2, bcars)))
-  m = matrix(data = data, nrow = r, ncol = c)
-  
+  m = matrix(nrow = r, ncol = c)
+  s = runif(r*c, 0, 1)
+  for (i in 1:r) {
+    for (j in 1:c) {
+      if (s[(i-1)*c+j] <= p/2) {
+        m[i,j] = 1
+      } else if (s[(i-1)*c+j] <= p) {
+        m[i,j] = 2
+      } else {
+        m[i,j] = 0
+      }
+    }
+  }
+  return(m)
+}
+
+red.getnext <- function(i, j, m) {
+  if (j == ncol(m)) {
+    return(m[i, 1])
+  } else {
+    return(m[i, j+1])
+  }
+}
+
+blue.getnext <- function(i, j, m) {
+  if (i == 1) {
+    return(m[nrow(m), j])
+  } else {
+    return(m[i-1, j])
+  }
+}
+
+red.setnext <- function(i, j, m) {
+  if (j == ncol(m)) {
+    m[i, 1] = 1
+    m[i, j] = 0
+  } else {
+    m[i, j+1] = 1
+    m[i, j] = 0
+  }
+  return(m)
+}
+
+blue.setnext <- function(i, j, m) {
+  if (i == 1) {
+    m[nrow(m), j] = 2
+    m[i, j] = 0
+  } else {
+    m[i-1, j] = 2
+    m[i, j] = 0
+  }
   return(m)
 }
 #### Function to move the system one step (east and north)
@@ -25,68 +69,45 @@ bml.init <- function(r, c, p){
 ## NOTE : the function should move the red cars once and the blue cars once,
 ## you can write extra functions that do just a step north or just a step east.
 
-bml.north <- function(c){ 
-  copy = c
-  for (i in 1:length(copy)) {    
-    if (i == 1) {
-      if (copy[i] == 2 && copy[length(c)] == 0) {
-        c[i] <- 0 
-        c[length(c)] <- 2
-      }
-    } else {
-      if (copy[i] == 2 && copy[i-1] == 0) {
-        c[i] <- 0 
-        c[i-1] <- 2
-      }
-    }
-  }
-  return (c)
-}
-
-bml.east <- function(r){ 
-  copy = r
-  for (i in 1:length(r)) {    
-    if (i == length(r)) {
-      if (copy[i] == 1 && copy[1] == 0) {
-        r[i] <- 0 
-        r[1] <- 1
-      }
-    } else {
-      if (copy[i] == 1 && copy[i+1] == 0) {
-        r[i] <- 0 
-        r[i+1] <- 1
-      }
-    }
-  }
-  return (r)
-}
-
-
 bml.step <- function(m){
-  old = m 
-  for (r in 1:nrow(m)) {
-    m[r,] = bml.east(m[r,])
+  n1 = m
+  n2 = m
+  for (i in 1:nrow(n1)) {
+    for (j in 1:ncol(n1)) {
+      if ((n1[i,j] == 1) & (red.getnext(i,j,n1) == 0)) {
+        n2 = red.setnext(i,j,n2)
+      }
+    }
   }
-  for (c in 1:ncol(m)) {
-    m[,c] = bml.north(m[,c])
+  n1 = n2
+  #print(n1)
+  for (i in 1:nrow(n1)) {
+    for (j in 1:ncol(n1)) {
+      if ((n1[i,j] == 2) & (blue.getnext(i,j,n1) == 0)) {
+        n2 = blue.setnext(i,j,n2)
+      }
+    }
   }
-  
-  return(list(m, isTRUE(all.equal(old,m))))
+  grid.new = any(n2 != m)
+  m = n2
+  return(list(m, grid.new))
 }
-
 #### Function to do a simulation for a given set of input parameters
 ## Input : size of grid [r and c] and density [p]
 ## Output : *up to you* (e.g. number of steps taken, did you hit gridlock, ...)
 
 bml.sim <- function(r, c, p){
-  m = bml.init(r,c,p)
-  for (i in 1:500) {
-    x = bml.step(m)
-    if (x[[2]] == TRUE) {
-      return (FALSE)
-    } 
+  m = bml.init(r, c, p)
+  image(t(apply(m,2,rev)), axes = FALSE, col = c("white", "red", "blue"))
+  for (i in 1:2000) {
+    n = bml.step(m)
+    if (n[[2]] == TRUE) {
+      m = n[[1]]
+      image(t(apply(m,2,rev)), axes = FALSE, col = c("white", "red", "blue"))
+    } else {
+      image(t(apply(m,2,rev)), axes = FALSE, col = c("white", "red", "blue"))
+      return (list(i, TRUE))
+    }
   }
-  return (TRUE)
-  
-  
+  return (list(i, FALSE))
 }
