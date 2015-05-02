@@ -15,7 +15,8 @@
 # to make bubble charts and motion charts.
 # You need to first install the package:
 
-# install.packages('googleVis')  
+install.packages('googleVis')  
+
 # NOTE: you should execute the line above once, then keep it commented out.
 
 # Now open the library:
@@ -30,7 +31,8 @@ library('googleVis')
 ?gvisBubbleChart
 
 # For this bubble chart we will use the built-in dataset 'mtcars':
-head(mtcars)
+mtcars$model <- row.names(mtcars)
+
 # Introduce a new column to the dataset, 
 # The column should be called "model" and it should have the names of car models 
 # (i.e. the current row names).
@@ -44,13 +46,15 @@ head(mtcars)
 # Use levels of 'gear' to represent color of bubbles;
 # Finally use the 'options' argument to add axis labels and main title.
 
-# optionlist <- < your code here>
-# bub <- gvisBubbleChart( < your code here >)
+optionlist = list(vAxis="{title:'mpg'}",hAxis="{title:'disp'}",
+                  title=" disp vs. mpg")
+bub = gvisBubbleChart(mtcars, idvar = "model", xvar = "disp", yvar = "mpg", sizevar = "hp", 
+                      colorvar = "gear", options=optionlist)
 
 # Now plot your bubble chart output, 'bub', 
 # the chart will show up in a new tab in your web browser.
 
-# < your code here>
+plot(bub)
 
 ##### Motion Chart
 # For examples of motion chart, see: 
@@ -68,12 +72,12 @@ load("WorldBank.RData")
 # containing only the following columns from WordBank:
 # country, year, fertility rate, life expectancy, population and region.
 
-# WorldDat <- < your code here>
+WorldDat <- WorldBank[,c(2,3,4,5,6,10)]
 
 # As you can see, there are missing values in this data frame.
 # Get rid of all rows with one or more NAs.
 
-# < your code here >
+WorldDat<- na.omit(WorldDat)
 
 # Now make the motion chart using <WorldDat>:
 # (at this point is should have 6 columns and should be free of missing values)
@@ -84,6 +88,8 @@ load("WorldBank.RData")
 # for now just use the above instructions as default.
 
 # Motion <- gvisMotionChart( < your code here > )
+Motion <- gvisMotionChart(WorldDat,idvar="country",timevar="year",xvar="life.expectancy",
+                          yvar="fertility.rate", colorvar="region",sizevar="population")
 
 # Plot your motion chart. It should appear in your web browser. Play around with it!
 plot(Motion)
