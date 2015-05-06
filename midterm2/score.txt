@@ -1,0 +1,5 @@
+f2: >=72  -1
+line 108: color by species  -1
+line 115: wrong plot  -2
+
+Score: 29/33
