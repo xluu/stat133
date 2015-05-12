@@ -1,0 +1,4 @@
+change ylim to include all lines  -1
+use the same inital.doctor for all simulations  -2
+
+score: 17/20
